@@ -1,0 +1,12 @@
+spring:
+  profiles:
+    active: local
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "prometheus"
+
+hello:
+  name: "taro"
