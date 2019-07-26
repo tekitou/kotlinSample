@@ -1,7 +1,7 @@
 buildscript {
 	ext {
-		kotlinVersion = '1.2.51'
-		springBootVersion = '2.0.6.RELEASE'
+		kotlinVersion = '1.3.41'
+		springBootVersion = '2.1.6.RELEASE'
 	}
 	repositories {
 		mavenCentral()
@@ -45,12 +45,15 @@ repositories {
 }
 
 dependencies {
-	implementation("org.springframework.boot:spring-boot-starter")
-	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("io.github.microutils:kotlin-logging:1.6.22")
+	implementation("io.micrometer:micrometer-registry-prometheus:1.2.0")
+	implementation("javax.inject:javax.inject:1")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
+	implementation("org.springframework.boot:spring-boot-starter")
+	implementation("org.springframework.boot:spring-boot-starter-actuator")
+	implementation("org.springframework.boot:spring-boot-starter-web")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
-	compileOnly('org.projectlombok:lombok:1.18.4')
-	apt('org.projectlombok:lombok:1.18.4')
+	compileOnly('org.projectlombok:lombok:1.18.8')
+	apt('org.projectlombok:lombok:1.18.8')
 }
