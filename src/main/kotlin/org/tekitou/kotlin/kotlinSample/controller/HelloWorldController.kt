@@ -31,7 +31,7 @@ class HelloWorldController(meterRegistry: MeterRegistry, helloSettings: HelloSet
     ): String {
         logger.info("name={}", name)
         counter.increment()
-        return if (name != null) name else helloSettings.name
+        return name ?: helloSettings.name
     }
 
     companion object : KLogging()
