@@ -4,6 +4,7 @@ import io.micrometer.core.annotation.Timed
 import io.micrometer.core.instrument.Counter
 import io.micrometer.core.instrument.MeterRegistry
 import io.micrometer.core.instrument.Tags
+import io.micrometer.core.instrument.Timer
 import mu.KLogging
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -18,7 +19,8 @@ import org.tekitou.kotlin.kotlinSample.settings.HelloSettings
 @RequestMapping
 class HelloWorldController(meterRegistry: MeterRegistry, helloSettings: HelloSettings) {
     private var helloSettings: HelloSettings = helloSettings
-    var counter: Counter = meterRegistry.counter("controller.helloWorld", Tags.of("name", "count"))
+    var counter: Counter = meterRegistry.counter("controller_counter", Tags.of("name", "hello"))
+    var timer: Timer = meterRegistry.timer("controller_timer", Tags.of("name", "hello"))
 
     @Timed
     @GetMapping("hello")
@@ -29,6 +31,7 @@ class HelloWorldController(meterRegistry: MeterRegistry, helloSettings: HelloSet
             required = false
         ) name: String?, user: User, model: Model
     ): String {
+        timer.record { Thread.sleep(1000) }
         logger.info("name={}", name)
         counter.increment()
         return name ?: helloSettings.name
