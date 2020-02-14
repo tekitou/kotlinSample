@@ -55,6 +55,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter")
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation("org.springframework.boot:spring-boot-starter-security")
 	// selenium
 	implementation('org.seleniumhq.selenium:selenium-api:3.141.59')
 	implementation('org.seleniumhq.selenium:selenium-remote-driver:3.141.59')
