@@ -28,13 +28,13 @@ class HelloWorldController(meterRegistry: MeterRegistry, helloSettings: HelloSet
     fun hello(
         @RequestParam(
             value = "name",
-            required = false
+                required = false
         ) name: String?, user: User, model: Model
     ): String {
         timer.record { Thread.sleep(1000) }
-        logger.info("name={}", name)
+        logger.info("name=${name}, user=${user}")
         counter.increment()
-        return name ?: helloSettings.name
+        return name ?: user.name ?: helloSettings.name
     }
 
     companion object : KLogging()
