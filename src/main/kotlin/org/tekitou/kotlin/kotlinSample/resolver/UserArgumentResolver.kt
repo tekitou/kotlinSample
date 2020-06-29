@@ -2,32 +2,30 @@ package org.tekitou.kotlin.kotlinSample.resolver
 
 import mu.KLogging
 import org.springframework.core.MethodParameter
-import org.springframework.web.bind.support.WebDataBinderFactory
-import org.springframework.web.context.request.NativeWebRequest
-import org.springframework.web.method.support.HandlerMethodArgumentResolver
-import org.springframework.web.method.support.ModelAndViewContainer
+import org.springframework.web.reactive.BindingContext
+import org.springframework.web.reactive.result.method.HandlerMethodArgumentResolver
+import org.springframework.web.server.ServerWebExchange
 import org.tekitou.kotlin.kotlinSample.model.User
-import javax.servlet.http.HttpServletRequest
+import reactor.core.publisher.Mono
+import javax.inject.Named
 import kotlin.reflect.full.isSubclassOf
 
 
+@Named
 class UserArgumentResolver : HandlerMethodArgumentResolver {
     override fun supportsParameter(parameter: MethodParameter): Boolean {
-        return User::class.isSubclassOf(parameter.parameterType::class)
+        return User::class.isSubclassOf(parameter.parameterType.kotlin)
     }
 
     override fun resolveArgument(
         parameter: MethodParameter,
-        mavContainer: ModelAndViewContainer?,
-        webRequest: NativeWebRequest,
-        binderFactory: WebDataBinderFactory?
-    ): Any? {
-        val request = webRequest.getNativeRequest(HttpServletRequest::class.java)
-        val user = request?.getAttribute(USER_ATTRIBUTE)
+        bindingContext: BindingContext,
+        exchange: ServerWebExchange
+    ): Mono<Any> {
+        val user = exchange.getAttribute<User>(USER_ATTRIBUTE)
         logger.info("user:{}", user)
-        return user
+        return Mono.just(user as Any)
     }
-
 
     companion object : KLogging() {
         val USER_ATTRIBUTE = "userAttr"
